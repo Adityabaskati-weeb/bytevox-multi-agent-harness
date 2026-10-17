@@ -46,14 +46,90 @@ python -m bytevox_harness run "Summarize the main claims" `
 
 Remote use requires typing `APPROVE`. The USD guard estimates cost before requests using an approximate character-based token count and the requested completion cap; it is not a provider billing limit. `--api-key-env` selects another key variable. See the completed [D91 comparison protocol and results](runs/current-source-d90-3x2-20261017/equal-budget-followup.md) and the frozen [D90 plan](runs/current-source-d90-3x2-20261017/campaign-plan.md).
 
-## How it works
+## System architecture
 
-```text
-Goal → lead planner → three parallel specialists → lead synthesizer → checker
-              └──── structured handoffs and shared evidence ─────┘
-                                           reject → lead reviser → checker (once)
-                                      run events → JSONL trace
+The diagram shows the runtime path and its cross-cutting controls. The multi-agent path is the default; `single` runs the baseline through the same harness and local corpus tools.
+
+```mermaid
+flowchart TB
+    classDef entry fill:#eaf2ff,stroke:#2563eb,color:#172554,stroke-width:1.5px
+    classDef control fill:#fff7db,stroke:#d97706,color:#78350f,stroke-width:1.5px
+    classDef agent fill:#f1eaff,stroke:#7c3aed,color:#3b0764,stroke-width:1.5px
+    classDef state fill:#e8f7ef,stroke:#15803d,color:#14532d,stroke-width:1.5px
+    classDef safety fill:#fff0f0,stroke:#dc2626,color:#7f1d1d,stroke-width:1.5px
+    classDef storage fill:#eef2f6,stroke:#475569,color:#0f172a,stroke-width:1.5px
+
+    user["User task<br/>+ local document corpus"]:::entry --> cli["CLI<br/>run · compare · demo · show · replay"]:::entry
+    cli --> runtime["Run controller<br/>Harness.run()"]:::control
+
+    cli -. "remote model option" .-> approval{"Typed APPROVE?"}:::safety
+    approval -. "authorizes remote calls" .-> remote["OpenAI-compatible endpoint"]:::entry
+    gateway["Provider adapter<br/>offline by default"]:::entry
+    gateway --> offline["Offline provider"]:::entry
+    gateway --> remote
+
+    runtime --> mode{"Execution mode"}:::control
+    mode -->|multi| planner["Lead planner<br/>creates task-specific facets"]:::agent
+    mode -->|single| baseline["Single-agent baseline<br/>corpus-tool union · one answer"]:::agent
+
+    planner -->|structured assignments| specialists
+    subgraph specialists["Parallel specialist workers · distinct roles and tool allowlists"]
+        direction LR
+        causes["Causes<br/>direct evidence"]:::agent
+        outcomes["Outcomes<br/>independent corroboration"]:::agent
+        risks["Risks<br/>gaps and caveats"]:::agent
+    end
+
+    planner -->|role-checked calls| tools["CorpusTools<br/>fixed read-only allowlists"]:::control
+    causes -->|role-checked calls| tools
+    outcomes -->|role-checked calls| tools
+    risks -->|role-checked calls| tools
+    tools --> corpus[("Local text corpus")]:::entry
+    tools -. evidence results .-> planner
+    tools -. evidence results .-> causes
+    tools -. evidence results .-> outcomes
+    tools -. evidence results .-> risks
+
+    planner -->|plan + seed evidence| pool["Bounded shared evidence pool<br/>structured handoffs"]:::state
+    causes -->|findings + citations| pool
+    outcomes -->|findings + citations| pool
+    risks -->|findings + citations| pool
+    pool --> synth["Lead synthesizer<br/>grounded draft"]:::agent
+    synth --> checker["Checker<br/>model review + deterministic checks"]:::safety
+    checker -->|accepted| result["Answer + run status"]:::state
+    checker -->|rejected · one revision max| revise["Lead reviser"]:::agent
+    revise --> checker
+    baseline -->|answer + coverage check| result
+
+    planner -. model calls .-> gateway
+    causes -. model calls .-> gateway
+    outcomes -. model calls .-> gateway
+    risks -. model calls .-> gateway
+    synth -. model calls .-> gateway
+    checker -. model calls .-> gateway
+    revise -. model calls .-> gateway
+    baseline -. model call .-> gateway
+
+    budget["Run controls<br/>RunBudget: step · time · tokens<br/>cost preflight · bounded retries"]:::control
+    trace["TraceWriter<br/>timestamped run events"]:::storage
+    runtime -. enforces .-> budget
+    runtime -. records .-> trace
+    tools -. records tool calls .-> trace
+    gateway -. records model usage .-> trace
+
+    subgraph artifacts["Inspectable run artifacts · runs/"]
+        report["Markdown report"]:::storage
+        manifest["JSON manifest"]:::storage
+        jsonl["JSONL event trace"]:::storage
+    end
+    result --> report
+    runtime --> manifest
+    trace --> jsonl
+    cli -. "read saved run" .-> report
+    cli -. "replay events" .-> jsonl
 ```
+
+`compare` and `hotpotqa-compare` use the benchmark runner to execute paired harness runs and score them after completion. Reference answers and supporting-fact labels stay scorer-only; they are not included in model-facing assignments or validation contracts.
 
 | Specialist | Responsibility | Allowed corpus tools |
 |---|---|---|
@@ -64,6 +140,16 @@ Goal → lead planner → three parallel specialists → lead synthesizer → ch
 The lead plans task-specific facets. Specialists have distinct instructions and tool allowlists. The single-agent baseline has the union of the same three corpus tools; the multi-agent run splits those tools across roles. A bounded shared evidence pool is merged for synthesis and checker review, and its handoffs are visible in the trace. The harness enforces run and per-agent step, time, and token limits, retries once with backoff, and limits checker revision to one loop. When a worker or later stage fails, usable work is retained and the run is labelled partial. Checker acceptance also requires an empty issue list and passing deterministic checks.
 
 Agents only receive fixed, read-only corpus tools. They cannot write files, run shell commands, or browse the network. Corpus text and tool results are treated as untrusted data. Remote model requests require explicit CLI consent and typed approval. Reports include run status and elapsed time; JSONL traces record timestamps, agent handoffs, model inputs and results, tool calls and results, token usage, budget events, and checker decisions. Use `show` for the report or `replay` for the event timeline.
+
+| System area | Code location |
+|---|---|
+| CLI, provider approval, and report/replay commands | [`cli.py`](src/bytevox_harness/cli.py) |
+| Run lifecycle, planning, parallel workers, synthesis, and checking | [`harness.py`](src/bytevox_harness/harness.py) |
+| Role-specific read-only corpus tools | [`tools.py`](src/bytevox_harness/tools.py) |
+| Step, time, token, and retry accounting | [`budget.py`](src/bytevox_harness/budget.py) |
+| Offline and OpenAI-compatible model adapters | [`providers.py`](src/bytevox_harness/providers.py) |
+| JSONL event recording | [`trace.py`](src/bytevox_harness/trace.py) |
+| Paired comparisons and post-run scoring | [`benchmark.py`](src/bytevox_harness/benchmark.py), [`hotpotqa.py`](src/bytevox_harness/hotpotqa.py) |
 
 ## Latest model-backed comparison: D95 current source (`e6184eb`, post-D92)
 
