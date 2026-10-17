@@ -2,7 +2,7 @@
 
 A Python CLI harness for answering questions from local text documents. A lead plans the work, three specialists gather evidence in parallel, a lead synthesizes an answer, and a checker reviews its claims. Runs save reports, manifests, and inspectable JSONL traces. The default is deterministic and offline; the sample North Harbor corpus is fictional.
 
-**[Watch the 3:35 demo replay](submission/bytevox-demo-replay.mp4)** · [Walkthrough script](DEMO_SCRIPT.md). The video is assembled from saved command output and traces, not a live screen recording. It shows current-source D95 and D96 model runs, D74's partial/unverified run, failure handling, a run limit, and the measured trade-off. D77 and D91 are preserved as historical evidence from before D92's fixture-isolation change.
+**[Watch the 3:53 final walkthrough](submission/bytevox-final-walkthrough.mp4)** · [Walkthrough script](DEMO_SCRIPT.md). The video opens with the system architecture, then shows saved command output and traces; it is not a live screen recording. It covers current-source D95 and D96 model runs, D74's partial/unverified run, failure handling, a run limit, the measured trade-off, and a concise conclusion. D77 and D91 are preserved as historical evidence from before D92's fixture-isolation change.
 
 ## Run it
 

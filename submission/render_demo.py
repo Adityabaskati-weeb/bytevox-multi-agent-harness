@@ -1,13 +1,15 @@
-"""Render a short video from captured ByteVox CLI output and saved traces.
+"""Render the final ByteVox walkthrough from captured CLI output and saved traces.
 
-This produces a terminal-style replay, not a desktop screen recording. It uses
-saved D95 and D96 current-source model runs plus historical and offline failure
-evidence. No model or network requests are made by this renderer.
+This produces a walkthrough with an architecture overview and terminal-style
+replay scenes, not a desktop screen recording. It uses saved D95 and D96
+current-source model runs plus historical and offline failure evidence. No
+model or network requests are made by this renderer.
 """
 
 from __future__ import annotations
 
 import json
+import math
 import shutil
 import subprocess
 import tempfile
@@ -21,7 +23,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "runs" / "demo-recording"
-OUTPUT = Path(__file__).resolve().parent / "bytevox-demo-replay.mp4"
+OUTPUT = Path(__file__).resolve().parent / "bytevox-final-walkthrough.mp4"
 D95_MULTI_REPORT = ROOT / "runs" / "current-source-e6184eb-3x2-20261017" / "20261017T125550Z-909c1192.md"
 D95_MULTI_TRACE = ROOT / "runs" / "current-source-e6184eb-3x2-20261017" / "20261017T125550Z-909c1192.jsonl"
 D95_MULTI_MANIFEST = ROOT / "runs" / "current-source-e6184eb-3x2-20261017" / "20261017T125550Z-909c1192.manifest.json"
@@ -248,19 +250,27 @@ def build_scenes() -> list[dict[str, Any]]:
 
     return [
         {
-            "title": "ByteVox multi-agent harness",
-            "caption": "D95 and D96 current-source model runs + D74 postmortem; offline failure and limit examples.",
+            "title": "ByteVox Harness · Final Walkthrough",
+            "caption": "A bounded, inspectable document-analysis harness · saved evidence, no live model request",
             "command": "Saved model artifacts only · no request is made during rendering",
             "lines": [
                 "No model request is made while rendering this video.",
                 "",
-                "Walkthrough:",
+                "This final walkthrough covers:",
                 "  1. Inspect D95: a saved configured-model run from current source commit e6184eb",
-                "  2. Inspect one D96 current-source security-summary run over the injection fixture",
-                "  3. Review D74's neutral-task partial run; it remains unverified",
-                "  4. Demonstrate offline failure recovery, a limit, and the D95 measured trade-off",
+                "  2. Trace the planner, three parallel specialists, evidence, and checker",
+                "  3. Review a D96 security-summary observation and D74 partial postmortem",
+                "  4. Show deterministic failure recovery, a run limit, and the measured trade-off",
             ],
             "seconds": 10,
+        },
+        {
+            "kind": "architecture",
+            "title": "System architecture · one bounded run",
+            "caption": "Parallel evidence gathering feeds shared state; budgets and traces span every stage.",
+            "command": "MULTI DEFAULT  ·  SINGLE-AGENT BASELINE FOR PAIRED COMPARISON",
+            "lines": [],
+            "seconds": 12,
         },
         {
             "title": "01  D95 current-source configured-model answer",
@@ -311,7 +321,197 @@ def build_scenes() -> list[dict[str, Any]]:
             "lines": final_comparison_lines,
             "seconds": 40,
         },
+        {
+            "title": "08  Takeaway",
+            "caption": "An honest harness makes its work and its limits inspectable.",
+            "command": "FINAL SUMMARY · D95 IS A SMALL PILOT",
+            "lines": [
+                "Joint F1 tied in this three-task comparison.",
+                "Multi-agent was slower and costlier in this sample.",
+                "No quality improvement has been demonstrated.",
+                "Use coordination when task complexity justifies its added cost.",
+                "The next test: run the harness on a new task in a live walkthrough.",
+            ],
+            "seconds": 6,
+        },
     ]
+
+
+def draw_arrow(
+    draw: ImageDraw.ImageDraw,
+    start: tuple[int, int],
+    end: tuple[int, int],
+    *,
+    color: str = "#7893b6",
+    width: int = 4,
+) -> None:
+    draw.line((start, end), fill=color, width=width)
+    dx, dy = end[0] - start[0], end[1] - start[1]
+    length = math.hypot(dx, dy)
+    if not length:
+        return
+    ux, uy = dx / length, dy / length
+    px, py = -uy, ux
+    base_x, base_y = end[0] - ux * 17, end[1] - uy * 17
+    draw.polygon([
+        end,
+        (base_x + px * 9, base_y + py * 9),
+        (base_x - px * 9, base_y - py * 9),
+    ], fill=color)
+
+
+def draw_architecture_card(
+    draw: ImageDraw.ImageDraw,
+    box: tuple[int, int, int, int],
+    eyebrow: str,
+    body: list[str],
+    *,
+    fill: str,
+    outline: str,
+    title_font: ImageFont.FreeTypeFont,
+    body_font: ImageFont.FreeTypeFont,
+) -> None:
+    left, top, right, bottom = box
+    draw.rounded_rectangle(box, radius=16, fill=fill, outline=outline, width=2)
+    draw.text((left + 15, top + 12), eyebrow, fill=outline, font=body_font)
+    line_sizes = [draw.textbbox((0, 0), line, font=title_font) for line in body]
+    heights = [bounds[3] - bounds[1] for bounds in line_sizes]
+    spacing = 5
+    text_height = sum(heights) + spacing * max(0, len(heights) - 1)
+    y = top + 41 + max(0, (bottom - top - 48 - text_height) // 2)
+    for line, bounds, line_height in zip(body, line_sizes, heights):
+        text_width = bounds[2] - bounds[0]
+        draw.text(((left + right - text_width) // 2, y), line, fill="#e8eef8", font=title_font)
+        y += line_height + spacing
+
+
+def render_architecture_frame(
+    scene: dict[str, Any],
+    chapter_index: int,
+    chapter_count: int,
+    elapsed: int,
+    total_seconds: int,
+    fonts: tuple[ImageFont.FreeTypeFont, ImageFont.FreeTypeFont, ImageFont.FreeTypeFont],
+) -> Image.Image:
+    title_font, ui_font, mono_font = fonts
+    small_font = choose_font("segoeuib.ttf", "segoeui.ttf", size=17)
+    image = Image.new("RGB", (WIDTH, HEIGHT), "#090f1d")
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, WIDTH, 10), fill="#4f8cff")
+    draw.text((70, 36), scene["title"], fill="#f2f6ff", font=title_font)
+    draw.text((72, 96), scene["caption"], fill="#aab8ce", font=ui_font)
+    draw.text((1590, 44), f"{chapter_index:02d} / {chapter_count:02d}", fill="#7d93b3", font=ui_font)
+
+    panel = (62, 175, WIDTH - 62, 1000)
+    draw.rounded_rectangle(panel, radius=16, fill="#101827", outline="#26364d", width=2)
+    draw.text((88, 197), "MULTI-AGENT EXECUTION PATH", fill="#7ee787", font=small_font)
+
+    flow_edges = [
+        ((310, 415), (355, 415)),
+        ((585, 415), (635, 415)),
+        ((980, 415), (1030, 415)),
+        ((1260, 415), (1310, 415)),
+        ((1610, 415), (1650, 415)),
+    ]
+    for start, end in flow_edges:
+        draw_arrow(draw, start, end)
+
+    input_card = (85, 340, 310, 490)
+    draw_architecture_card(
+        draw, input_card, "REQUEST", ["Question +", "local corpus"],
+        fill="#15243a", outline="#5791ff", title_font=ui_font, body_font=small_font,
+    )
+    planner_card = (355, 340, 585, 490)
+    draw_architecture_card(
+        draw, planner_card, "LEAD PLANNER", ["Task-specific", "facets"],
+        fill="#211d3a", outline="#a78bfa", title_font=ui_font, body_font=small_font,
+    )
+
+    specialists_box = (635, 280, 980, 550)
+    draw.rounded_rectangle(specialists_box, radius=18, fill="#17152a", outline="#7c3aed", width=2)
+    draw.text((654, 297), "PARALLEL SPECIALISTS", fill="#c4b5fd", font=small_font)
+    specialist_rows = [
+        ("CAUSES", "Search"),
+        ("OUTCOMES", "List + search"),
+        ("RISKS", "Search + read"),
+    ]
+    for index, (role, tools) in enumerate(specialist_rows):
+        top = 333 + index * 65
+        row = (653, top, 962, top + 52)
+        draw.rounded_rectangle(row, radius=10, fill="#211d3a", outline="#4f3d75", width=1)
+        draw.text((667, top + 15), role, fill="#f1eaff", font=small_font)
+        draw.text((790, top + 14), tools, fill="#c4b5fd", font=mono_font)
+
+    evidence_card = (1030, 340, 1260, 490)
+    draw_architecture_card(
+        draw, evidence_card, "SHARED STATE", ["Bounded evidence", "Structured handoffs"],
+        fill="#142a25", outline="#4ade80", title_font=ui_font, body_font=small_font,
+    )
+    review_card = (1310, 340, 1610, 490)
+    draw_architecture_card(
+        draw, review_card, "LEAD + CHECKER", ["Synthesize → validate", "Reject → revise once"],
+        fill="#30211c", outline="#fb923c", title_font=ui_font, body_font=small_font,
+    )
+    result_card = (1650, 340, 1855, 490)
+    draw_architecture_card(
+        draw, result_card, "OUTPUT", ["Answer +", "run status"],
+        fill="#142a25", outline="#4ade80", title_font=ui_font, body_font=small_font,
+    )
+
+    tool_card = (635, 595, 980, 675)
+    draw_architecture_card(
+        draw, tool_card, "CORPUS TOOLS", ["Fixed · read-only · role-gated"],
+        fill="#282519", outline="#facc15", title_font=small_font, body_font=small_font,
+    )
+    corpus_card = (1030, 595, 1260, 675)
+    draw_architecture_card(
+        draw, corpus_card, "LOCAL SOURCE", [".md / .txt"],
+        fill="#15243a", outline="#5791ff", title_font=small_font, body_font=small_font,
+    )
+    draw_arrow(draw, (807, 550), (807, 595), color="#d8b94b", width=3)
+    draw_arrow(draw, (980, 635), (1030, 635), color="#d8b94b", width=3)
+    draw.text((654, 560), "allowlisted reads", fill="#d6c886", font=small_font)
+
+    draw.text((88, 700), "CROSS-CUTTING CONTROLS", fill="#7d93b3", font=small_font)
+    controls = [
+        ("BUDGETS", "steps · time · tokens · cost cap"),
+        ("FAILURE CONTROL", "backoff · retain usable partial work"),
+        ("REMOTE MODEL", "offline default · typed APPROVE"),
+        ("UNTRUSTED INPUT", "document text is data, not orders"),
+    ]
+    control_x = [85, 535, 985, 1435]
+    for left, (label, text) in zip(control_x, controls):
+        draw.rounded_rectangle((left, 730, left + 420, 805), radius=12, fill="#151f30", outline="#34445c", width=1)
+        draw.text((left + 15, 741), label, fill="#9dc1ff", font=small_font)
+        draw.text((left + 15, 771), text, fill="#d5deeb", font=small_font)
+
+    draw.text((88, 824), "PERSISTENCE AND EVALUATION", fill="#7d93b3", font=small_font)
+    draw.rounded_rectangle((85, 852, 870, 928), radius=12, fill="#151f30", outline="#34445c", width=1)
+    draw.text((104, 862), "TRACE + RUN ARTIFACTS", fill="#9dc1ff", font=small_font)
+    draw.text((104, 892), "events.jsonl  ·  report.md  ·  manifest.json", fill="#d5deeb", font=ui_font)
+    draw_arrow(draw, (870, 890), (925, 890), color="#7893b6", width=3)
+    draw.rounded_rectangle((925, 852, 1195, 928), radius=12, fill="#15243a", outline="#5791ff", width=1)
+    draw.text((953, 862), "CLI INSPECTION", fill="#9dc1ff", font=small_font)
+    draw.text((965, 893), "show / replay", fill="#e8eef8", font=ui_font)
+    draw.rounded_rectangle((1235, 852, 1855, 928), radius=12, fill="#142a25", outline="#15803d", width=1)
+    draw.text((1254, 862), "PAIRED EVALUATION", fill="#86efac", font=small_font)
+    draw.text((1254, 892), "multi-agent vs single baseline · score after runs", fill="#d5deeb", font=small_font)
+
+    progress = min(1.0, max(0.0, elapsed / max(1, scene["seconds"] - 1)))
+    position = progress * len(flow_edges)
+    edge_index = min(len(flow_edges) - 1, int(position))
+    edge_progress = position - edge_index
+    edge_start, edge_end = flow_edges[edge_index]
+    dot_x = edge_start[0] + int((edge_end[0] - edge_start[0]) * edge_progress)
+    dot_y = edge_start[1] + int((edge_end[1] - edge_start[1]) * edge_progress)
+    draw.ellipse((dot_x - 8, dot_y - 8, dot_x + 8, dot_y + 8), fill="#f8fafc", outline="#4f8cff", width=3)
+
+    draw.text((72, 1020), "Final walkthrough · architecture + saved model traces + deterministic failure/limit runs", fill="#72839e", font=ui_font)
+    bar_x, bar_y, bar_w, bar_h = 1420, 1032, 425, 8
+    draw.rounded_rectangle((bar_x, bar_y, bar_x + bar_w, bar_y + bar_h), radius=4, fill="#1d2a3e")
+    overall_progress = min(1.0, (sum(s["seconds"] for s in SCENES[:chapter_index - 1]) + elapsed + 1) / total_seconds)
+    draw.rounded_rectangle((bar_x, bar_y, bar_x + int(bar_w * overall_progress), bar_y + bar_h), radius=4, fill="#4f8cff")
+    return image
 
 
 def render_frame(
@@ -322,6 +522,8 @@ def render_frame(
     total_seconds: int,
     fonts: tuple[ImageFont.FreeTypeFont, ImageFont.FreeTypeFont, ImageFont.FreeTypeFont],
 ) -> Image.Image:
+    if scene.get("kind") == "architecture":
+        return render_architecture_frame(scene, chapter_index, chapter_count, elapsed, total_seconds, fonts)
     title_font, ui_font, mono_font = fonts
     image = Image.new("RGB", (WIDTH, HEIGHT), "#090f1d")
     draw = ImageDraw.Draw(image)
