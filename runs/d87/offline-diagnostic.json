@@ -1,0 +1,727 @@
+{
+  "campaign": "D87 offline retrieval and synthesis projection",
+  "scope": "Offline replay only; no model calls, network requests, broad benchmark, or answer-quality evaluation.",
+  "source_fingerprints": {
+    "D86_frozen_harness_sha256": "180000d46fd2b3e88eb714a9b86e703899f9315e4c9e20e44a8fd43cdfe427cb",
+    "D87_current_harness_sha256": "21b4ee12cc67fb5510c6cf85561c78d3b0241028a3cfd248a3122269d7b682ba",
+    "D87_current_harness_file_count": 12,
+    "current_prompts_sha256": "6992422a52882a05c9c214fa7aaf45abae6e60994195fb34ff897c19d8721717"
+  },
+  "data_fingerprints": {
+    "dataset_sha256": "e3da074df24e8369009918aa5cdbdd254dadcde4c63f7569d36afd6f2268caa8",
+    "dataset_version": "hotpot_dev_distractor_v1",
+    "split": "dev distractor",
+    "corpus_sha256_by_task": {
+      "hotpotqa-0001": "9e481356f1e6490f82e865d3acc396aa20f9640296cf5ece7622fb9c44213bb5",
+      "hotpotqa-0002": "e9671d9c2efc6358aff219d0e26183ba000bcf542277d0bb023ece0e3c5084a8",
+      "hotpotqa-0003": "999e269dc7817aeadd67a8a7b6f8daff1e7ad7be623658a676ce6aef812ec989"
+    }
+  },
+  "recall_definition": "Union of the three specialist search_documents results; excludes planner seed and reread evidence.",
+  "runs": [
+    {
+      "run_id": "20261017T051315Z-95f5e12c",
+      "task_id": "hotpotqa-0001",
+      "type": "bridge",
+      "baseline_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-002-the-saturdays#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence"
+      ],
+      "candidate_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-002-the-saturdays#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence"
+      ],
+      "proposed_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-002-the-saturdays#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-03-s-002-headlines#sentence"
+      ],
+      "promote": "doc-03-s-002-headlines#sentence",
+      "displaced": "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+      "gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "baseline_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "candidate_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "proposed_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "sizes": [
+        2172,
+        2172,
+        2167
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "9e481356f1e6490f82e865d3acc396aa20f9640296cf5ece7622fb9c44213bb5",
+      "baseline_union_ids": [
+        "doc-01-s-001-vanessa-white#sentence",
+        "doc-01-s-003-vanessa-white#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-04-s-000-on-your-radar#sentence",
+        "doc-05-s-000-higher-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-001-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-08-s-002-the-saturdays#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-01-s-000-vanessa-white#sentence",
+        "doc-01-s-001-vanessa-white#sentence",
+        "doc-01-s-003-vanessa-white#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-03-s-002-headlines#sentence",
+        "doc-04-s-000-on-your-radar#sentence",
+        "doc-05-s-000-higher-the-saturdays-song#sentence",
+        "doc-05-s-003-higher-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-001-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-08-s-002-the-saturdays#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1818,
+        "eight_compact_estimate": 1740,
+        "selected_estimate": 1740,
+        "gate_passed": true,
+        "raw_candidate_delta": -78,
+        "selected_request_delta": -78,
+        "selected_payload": "eight/compact"
+      },
+      "synthesis_candidate_delta_vs_current": -5
+    },
+    {
+      "run_id": "20261017T051346Z-0a0648ff",
+      "task_id": "hotpotqa-0001",
+      "type": "bridge",
+      "baseline_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence"
+      ],
+      "candidate_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence"
+      ],
+      "proposed_ids": [
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-09-s-000-issues-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-03-s-002-headlines#sentence"
+      ],
+      "promote": "doc-03-s-002-headlines#sentence",
+      "displaced": "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+      "gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "baseline_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "candidate_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "proposed_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "sizes": [
+        2130,
+        2130,
+        2120
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "9e481356f1e6490f82e865d3acc396aa20f9640296cf5ece7622fb9c44213bb5",
+      "baseline_union_ids": [
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-04-s-000-on-your-radar#sentence",
+        "doc-05-s-000-higher-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-001-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-02-s-000-forever-is-over#sentence",
+        "doc-03-s-001-headlines#sentence",
+        "doc-03-s-002-headlines#sentence",
+        "doc-04-s-000-on-your-radar#sentence",
+        "doc-05-s-000-higher-the-saturdays-song#sentence",
+        "doc-05-s-003-higher-the-saturdays-song#sentence",
+        "doc-06-s-000-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-001-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-002-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-06-s-004-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence",
+        "doc-08-s-002-the-saturdays#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-06-s-003-the-voice-of-ireland-series-4#sentence",
+        "doc-08-s-000-the-saturdays#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1821,
+        "eight_compact_estimate": 1744,
+        "selected_estimate": 1744,
+        "gate_passed": true,
+        "raw_candidate_delta": -77,
+        "selected_request_delta": -77,
+        "selected_payload": "eight/compact"
+      },
+      "synthesis_candidate_delta_vs_current": -10
+    },
+    {
+      "run_id": "20261017T051411Z-92e2e1ca",
+      "task_id": "hotpotqa-0002",
+      "type": "comparison",
+      "baseline_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "candidate_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "proposed_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "promote": "doc-06-s-002-del-amitri#sentence",
+      "displaced": "doc-02-s-000-the-silencers-band#sentence",
+      "gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "baseline_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "candidate_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "proposed_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "sizes": [
+        2363,
+        2363,
+        2351
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "e9671d9c2efc6358aff219d0e26183ba000bcf542277d0bb023ece0e3c5084a8",
+      "baseline_union_ids": [
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence",
+        "doc-03-s-006-del-amitri-discography#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence",
+        "doc-03-s-006-del-amitri-discography#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-001-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-09-s-000-del-amitri-album#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1593,
+        "eight_compact_estimate": 1627,
+        "selected_estimate": 1593,
+        "gate_passed": false,
+        "raw_candidate_delta": 34,
+        "selected_request_delta": 0,
+        "selected_payload": "five/full"
+      },
+      "synthesis_candidate_delta_vs_current": -12
+    },
+    {
+      "run_id": "20261017T051447Z-125adfc2",
+      "task_id": "hotpotqa-0002",
+      "type": "comparison",
+      "baseline_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "candidate_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "proposed_ids": [
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence"
+      ],
+      "promote": "doc-06-s-002-del-amitri#sentence",
+      "displaced": "doc-02-s-000-the-silencers-band#sentence",
+      "gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "baseline_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "candidate_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "proposed_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "sizes": [
+        2501,
+        2501,
+        2490
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "e9671d9c2efc6358aff219d0e26183ba000bcf542277d0bb023ece0e3c5084a8",
+      "baseline_union_ids": [
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence",
+        "doc-03-s-006-del-amitri-discography#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-00-s-000-justin-currie#sentence",
+        "doc-02-s-000-the-silencers-band#sentence",
+        "doc-03-s-003-del-amitri-discography#sentence",
+        "doc-03-s-006-del-amitri-discography#sentence",
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-001-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-06-s-003-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence",
+        "doc-07-s-001-the-operation-m-d#sentence",
+        "doc-07-s-002-the-operation-m-d#sentence",
+        "doc-09-s-000-del-amitri-album#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-06-s-000-del-amitri#sentence",
+        "doc-06-s-002-del-amitri#sentence",
+        "doc-07-s-000-the-operation-m-d#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1637,
+        "eight_compact_estimate": 1672,
+        "selected_estimate": 1637,
+        "gate_passed": false,
+        "raw_candidate_delta": 35,
+        "selected_request_delta": 0,
+        "selected_payload": "five/full"
+      },
+      "synthesis_candidate_delta_vs_current": -11
+    },
+    {
+      "run_id": "20261017T051513Z-4143c342",
+      "task_id": "hotpotqa-0003",
+      "type": "bridge",
+      "baseline_ids": [
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-04-s-005-uss-kearsarge-cv-33#sentence",
+        "doc-08-s-004-uss-princeton-cv-37#sentence"
+      ],
+      "candidate_ids": [
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-04-s-005-uss-kearsarge-cv-33#sentence",
+        "doc-08-s-004-uss-princeton-cv-37#sentence"
+      ],
+      "proposed_ids": [
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-04-s-005-uss-kearsarge-cv-33#sentence",
+        "doc-08-s-004-uss-princeton-cv-37#sentence"
+      ],
+      "promote": null,
+      "displaced": null,
+      "gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "baseline_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "candidate_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "proposed_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "sizes": [
+        2275,
+        2285,
+        2285
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "999e269dc7817aeadd67a8a7b6f8daff1e7ad7be623658a676ce6aef812ec989",
+      "baseline_union_ids": [
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-04-s-005-uss-kearsarge-cv-33#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-05-s-001-list-of-sunken-aircraft-carriers#sentence",
+        "doc-06-s-002-uss-wasp-cv-18#sentence",
+        "doc-08-s-004-uss-princeton-cv-37#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-04-s-005-uss-kearsarge-cv-33#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-05-s-001-list-of-sunken-aircraft-carriers#sentence",
+        "doc-06-s-002-uss-wasp-cv-18#sentence",
+        "doc-08-s-004-uss-princeton-cv-37#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1843,
+        "eight_compact_estimate": 1759,
+        "selected_estimate": 1759,
+        "gate_passed": true,
+        "raw_candidate_delta": -84,
+        "selected_request_delta": -84,
+        "selected_payload": "eight/compact"
+      },
+      "synthesis_candidate_delta_vs_current": 0
+    },
+    {
+      "run_id": "20261017T051543Z-3e031ef1",
+      "task_id": "hotpotqa-0003",
+      "type": "bridge",
+      "baseline_ids": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-03-s-000-uss-randolph-cv-15#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-03-s-002-uss-randolph-cv-15#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence"
+      ],
+      "candidate_ids": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-03-s-000-uss-randolph-cv-15#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-03-s-002-uss-randolph-cv-15#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence"
+      ],
+      "proposed_ids": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-03-s-000-uss-randolph-cv-15#sentence",
+        "doc-09-s-000-launch-and-recovery-cycle#sentence",
+        "doc-03-s-002-uss-randolph-cv-15#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-00-s-000-john-glenn#sentence"
+      ],
+      "promote": null,
+      "displaced": null,
+      "gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "baseline_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "candidate_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "proposed_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "sizes": [
+        2322,
+        2332,
+        2332
+      ],
+      "selected_count": [
+        8,
+        8,
+        8
+      ],
+      "corpus_sha256": "999e269dc7817aeadd67a8a7b6f8daff1e7ad7be623658a676ce6aef812ec989",
+      "baseline_union_ids": [
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-000-uss-randolph-cv-15#sentence",
+        "doc-03-s-001-uss-randolph-cv-15#sentence",
+        "doc-03-s-002-uss-randolph-cv-15#sentence",
+        "doc-03-s-003-uss-randolph-cv-15#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-05-s-001-list-of-sunken-aircraft-carriers#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence"
+      ],
+      "candidate_union_ids": [
+        "doc-00-s-000-john-glenn#sentence",
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-000-uss-randolph-cv-15#sentence",
+        "doc-03-s-001-uss-randolph-cv-15#sentence",
+        "doc-03-s-002-uss-randolph-cv-15#sentence",
+        "doc-03-s-003-uss-randolph-cv-15#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence",
+        "doc-05-s-000-list-of-sunken-aircraft-carriers#sentence",
+        "doc-05-s-001-list-of-sunken-aircraft-carriers#sentence",
+        "doc-09-s-003-launch-and-recovery-cycle#sentence"
+      ],
+      "baseline_union_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "candidate_union_gold": [
+        "doc-00-s-001-john-glenn#sentence",
+        "doc-03-s-004-uss-randolph-cv-15#sentence"
+      ],
+      "outcome_envelope": {
+        "five_full_estimate": 1816,
+        "eight_compact_estimate": 1726,
+        "selected_estimate": 1726,
+        "gate_passed": true,
+        "raw_candidate_delta": -90,
+        "selected_request_delta": -90,
+        "selected_payload": "eight/compact"
+      },
+      "synthesis_candidate_delta_vs_current": 0
+    }
+  ],
+  "totals": {
+    "specialist_search_union_baseline_gold": 12,
+    "specialist_search_union_baseline_total": 14,
+    "specialist_search_union_candidate_gold": 14,
+    "specialist_search_union_candidate_total": 14,
+    "D87_current_synthesis_estimate_deltas_vs_D86": [
+      0,
+      0,
+      0,
+      0,
+      10,
+      10
+    ],
+    "one_slot_simulation_synthesis_estimate_deltas_vs_D87_current": [
+      -5,
+      -10,
+      -12,
+      -11,
+      0,
+      0
+    ],
+    "synthesis_gold_coverage": {
+      "D86": 12,
+      "D87_current": 12,
+      "one_slot_simulation": 14,
+      "total": 14
+    },
+    "one_slot_simulation_request_estimates_not_larger_than_D87_current": true,
+    "one_slot_simulation_recommended_for_runtime": false,
+    "rejection_reason": "It swaps arbitrary unclaimed evidence, including two bridge-task voice-performance records for non-gold evidence; gold coverage is not enough to establish that those displacements are harmless for answer quality.",
+    "corroborator_raw_eight_compact_deltas": [
+      -78,
+      -77,
+      34,
+      35,
+      -84,
+      -90
+    ],
+    "corroborator_raw_eight_compact_delta_sum": -260,
+    "corroborator_selected_request_deltas": [
+      -78,
+      -77,
+      0,
+      0,
+      -84,
+      -90
+    ],
+    "corroborator_selected_request_delta_sum": -329
+  },
+  "envelope_estimator_note": "Baseline and candidate requests use the same OpenAI-compatible request-envelope builder and character/4 estimate_tokens() estimator. Raw expanded estimates are +34 and +35 on the two band-task repeats; the size gate selects five/full there, so selected request deltas are 0 and 0. The earlier rough +34/+34 note rounded the second serialized request; recomputation gives +35."
+}

@@ -1,0 +1,19 @@
+{
+  "run_id": "20261016T184643Z-baf19fde",
+  "status": "partial",
+  "mode": "multi",
+  "provider": "offline-deterministic",
+  "model": null,
+  "cost_budget": null,
+  "checker_accepted": null,
+  "claims": 4,
+  "elapsed_seconds": 0.074,
+  "steps": 10,
+  "manifest": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\limit\\20261016T184643Z-baf19fde.manifest.json",
+  "trace": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\limit\\20261016T184643Z-baf19fde.jsonl",
+  "report": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\limit\\20261016T184643Z-baf19fde.md",
+  "errors": [
+    "worker_outcomes: BudgetExceeded: run step limit reached",
+    "run step limit reached"
+  ]
+}

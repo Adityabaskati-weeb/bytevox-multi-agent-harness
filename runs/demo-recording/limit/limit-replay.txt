@@ -1,0 +1,40 @@
+Replay: 20261016T184643Z-baf19fde.jsonl
+  1     15.37 ms  harness              run_started
+  2     16.07 ms  lead_planner         tool_call tool=list_documents args={}
+  3     16.54 ms  lead_planner         tool_result tool=list_documents result=["incident_review.md", "operations.md", "risk_register.md"]
+  4     16.99 ms  lead_planner         tool_call tool=search_documents args={"limit": 5, "query": "What caused most North Harbor pilot delays, and which operational changes were tried to address them?"}
+  5     17.65 ms  lead_planner         tool_result tool=search_documents result=[{"document": "operations.md", "evidence_id": "operations#interventions", "score": 4.450967595226477, "section": "interventions", "text": "The team trialed all-door boarding at the three busiest stops, added a four-minute schedule buffer be
+  6     18.91 ms  lead_planner         message_sent
+  7     19.56 ms  lead_planner         model_call role=lead_planner attempt=1
+  8      20.1 ms  lead_planner         model_result
+  9     21.31 ms  harness              run_manifest_updated
+ 10     21.66 ms  harness              validation_contract
+ 11     22.04 ms  orchestrator         message_received
+ 12     59.28 ms  worker_causes        tool_call tool=search_documents args={"limit": 5, "query": "What caused most North Harbor pilot delays, and which operational changes were tried to address them? Facts that directly answer the task question"}
+ 13      60.3 ms  worker_causes        tool_result tool=search_documents result=[{"document": "operations.md", "evidence_id": "operations#interventions", "score": 4.450967595226477, "section": "interventions", "text": "The team trialed all-door boarding at the three busiest stops, added a four-minute schedule buffer be
+ 14     61.05 ms  worker_causes        untrusted_content_detected {"action": "kept_as_data; no write, environment, shell, or network tool is available", "agent_id": "worker_causes", "pattern_names": ["override_language", "secret_request", "unsafe_write_request"], "source_ids": ["operations#interventions", "operations#results", "operations#delay-causes", "risk_regi
+ 15     61.49 ms  worker_outcomes      tool_call tool=list_documents args={}
+ 16      61.9 ms  worker_risks         tool_call tool=search_documents args={"limit": 5, "query": "What caused most North Harbor pilot delays, and which operational changes were tried to address them? Material limitations, uncertainty, or unresolved parts of the task"}
+ 17     62.42 ms  worker_risks         tool_result tool=search_documents result=[{"document": "operations.md", "evidence_id": "operations#interventions", "score": 4.450967595226477, "section": "interventions", "text": "The team trialed all-door boarding at the three busiest stops, added a four-minute schedule buffer be
+ 18     63.13 ms  worker_risks         tool_call tool=read_evidence args={"evidence_id": "operations#interventions"}
+ 19     63.46 ms  worker_causes        message_sent
+ 20     64.04 ms  worker_outcomes      tool_result tool=list_documents result=["incident_review.md", "operations.md", "risk_register.md"]
+ 21     64.38 ms  worker_outcomes      tool_call tool=search_documents args={"limit": 5, "query": "What caused most North Harbor pilot delays, and which operational changes were tried to address them? Supporting evidence, measurements, or context relevant to the task"}
+ 22     64.93 ms  worker_outcomes      tool_result tool=search_documents result=[{"document": "operations.md", "evidence_id": "operations#interventions", "score": 4.450967595226477, "section": "interventions", "text": "The team trialed all-door boarding at the three busiest stops, added a four-minute schedule buffer be
+ 23     65.47 ms  worker_risks         tool_result tool=read_evidence result={"document": "operations.md", "evidence_id": "operations#interventions", "score": 0.0, "section": "interventions", "text": "The team trialed all-door boarding at the three busiest stops, added a four-minute schedule buffer before the bridge
+ 24     65.96 ms  worker_causes        model_call role=worker_causes attempt=1
+ 25     66.93 ms  worker_causes        model_result
+ 26     67.39 ms  worker_risks         message_sent
+ 27     67.97 ms  worker_outcomes      message_sent
+ 28     68.51 ms  lead_synthesizer     message_received
+ 29     68.97 ms  worker_risks         model_call role=worker_risks attempt=1
+ 30     69.85 ms  worker_risks         model_result
+ 31      70.3 ms  worker_causes        agent_finished status=completed error=
+ 32     70.71 ms  worker_outcomes      budget_stop
+ 33     71.01 ms  worker_outcomes      agent_finished status=failed error=worker_outcomes: BudgetExceeded: run step limit reached
+ 34     71.31 ms  lead_synthesizer     message_received
+ 35     71.74 ms  worker_risks         agent_finished status=completed error=
+ 36     72.55 ms  lead_synthesizer     message_sent
+ 37     73.14 ms  lead_synthesizer     budget_stop
+ 38     73.51 ms  harness              run_stopped {"partial": true, "reason": "run step limit reached"}
+ 39     74.93 ms  harness              run_finished

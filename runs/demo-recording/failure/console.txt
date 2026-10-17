@@ -1,0 +1,34 @@
+{
+  "run_id": "20261016T184643Z-ead0e556",
+  "status": "partial",
+  "mode": "multi",
+  "provider": "offline-deterministic",
+  "model": null,
+  "cost_budget": null,
+  "checker_accepted": true,
+  "claims": 4,
+  "elapsed_seconds": 0.296,
+  "steps": 14,
+  "manifest": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-ead0e556.manifest.json",
+  "trace": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-ead0e556.jsonl",
+  "report": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-ead0e556.md",
+  "errors": [
+    "worker_risks: TimeoutError: simulated timeout for worker_risks"
+  ]
+}
+{
+  "run_id": "20261016T184643Z-6713fb21",
+  "status": "completed",
+  "mode": "multi",
+  "provider": "offline-deterministic",
+  "model": null,
+  "cost_budget": null,
+  "checker_accepted": true,
+  "claims": 4,
+  "elapsed_seconds": 0.036,
+  "steps": 16,
+  "manifest": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-6713fb21.manifest.json",
+  "trace": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-6713fb21.jsonl",
+  "report": "C:\\Users\\baska\\Documents\\Codex\\2026-10-14\\emember-throughout-the-entire-task-astra\\outputs\\bytevox-harness\\runs\\demo-recording\\failure\\20261016T184643Z-6713fb21.md",
+  "errors": []
+}

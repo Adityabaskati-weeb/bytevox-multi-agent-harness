@@ -1,0 +1,64 @@
+{
+  "provenance": {
+    "dataset": "HotpotQA",
+    "dataset_version": "hotpot_dev_distractor_v1",
+    "split": "dev distractor",
+    "source_url": "https://huggingface.co/datasets/namlh2004/hotpotqa",
+    "source_homepage": "https://hotpotqa.github.io/",
+    "official_evaluator_url": "https://github.com/hotpotqa/hotpot/blob/master/hotpot_evaluate_v1.py",
+    "license": "CC BY-SA 4.0",
+    "local_source_file": "hotpot_dev_distractor_v1.json",
+    "source_sha256": "e3da074df24e8369009918aa5cdbdd254dadcde4c63f7569d36afd6f2268caa8",
+    "requested_sample_size": 3,
+    "sample_seed": 20261017,
+    "excluded_sample_id_count": 437,
+    "excluded_sample_ids_sha256": "61e6faa1ad4721234813fa737d4bf4db4eb170d564390ddde58f547c4616bb8b",
+    "eligible_record_count": 6968,
+    "sample_count": 3,
+    "sample_ids": [
+      "5a85ab905542994c784ddb35",
+      "5a7a2be25542996a35c17118",
+      "5ae736cb5542991bbc9761c2"
+    ],
+    "sample_types": [
+      "bridge",
+      "comparison",
+      "bridge"
+    ],
+    "sample_source_indices": [
+      319,
+      2112,
+      4722
+    ],
+    "sample_selection_rule": "exclude supplied prior IDs, then use proportional stratified allocation by record type using Hamilton's largest remainder; sample within each type using the recorded seed, then report original source order",
+    "corpus_sha256": "9ad5b2b85360ad50084254ce8b87a40e0631631870f58822dce677733cf84caf",
+    "corpus_sha256_by_task": {
+      "hotpotqa-0001": "9e481356f1e6490f82e865d3acc396aa20f9640296cf5ece7622fb9c44213bb5",
+      "hotpotqa-0002": "e9671d9c2efc6358aff219d0e26183ba000bcf542277d0bb023ece0e3c5084a8",
+      "hotpotqa-0003": "999e269dc7817aeadd67a8a7b6f8daff1e7ad7be623658a676ce6aef812ec989"
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "hotpotqa-0001",
+      "dataset_id": "5a85ab905542994c784ddb35",
+      "question": "Two positions were filled in The Voice of Ireland b which British-Irish girl group based in London, England?",
+      "type": "bridge",
+      "corpus_sha256": "9e481356f1e6490f82e865d3acc396aa20f9640296cf5ece7622fb9c44213bb5"
+    },
+    {
+      "task_id": "hotpotqa-0002",
+      "dataset_id": "5a7a2be25542996a35c17118",
+      "question": "Which band has had more members, The Operation M.D. or Del Amitri?",
+      "type": "comparison",
+      "corpus_sha256": "e9671d9c2efc6358aff219d0e26183ba000bcf542277d0bb023ece0e3c5084a8"
+    },
+    {
+      "task_id": "hotpotqa-0003",
+      "dataset_id": "5ae736cb5542991bbc9761c2",
+      "question": "This aircraft carrier served as a recovery ship for this flight which circled the earth how many times?",
+      "type": "bridge",
+      "corpus_sha256": "999e269dc7817aeadd67a8a7b6f8daff1e7ad7be623658a676ce6aef812ec989"
+    }
+  ]
+}

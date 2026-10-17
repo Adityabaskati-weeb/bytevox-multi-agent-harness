@@ -1,0 +1,103 @@
+# Python bytecode and local tooling caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and build outputs
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Local credentials/configuration; keep the safe template
+.env
+.env.*
+!.env.example
+
+# Curated submission package: the full experiment archive remains on disk.
+# Historical metrics stay in the review docs; only directly useful, linked
+# D86-D90, D87 diagnostics, budget, safety, D77, D95, and demo evidence is eligible below.
+/runs/**
+!/runs/
+!/runs/README.md
+!/runs/current-role-d54-3x2-20261017/
+!/runs/current-role-d54-3x2-20261017/**
+!/runs/d87/
+!/runs/d87/**
+!/runs/goal-verification/
+!/runs/goal-verification/budget-smoke/
+!/runs/goal-verification/budget-smoke/**
+!/runs/d58-injection-live-20261016/
+!/runs/d58-injection-live-20261016/**
+!/runs/d74-unwarned-injection-smoke/
+!/runs/d74-unwarned-injection-smoke/**
+!/runs/d75-recovery-unwarned-injection/
+!/runs/d75-recovery-unwarned-injection/**
+!/runs/d76-unwarned-injection-16k/
+!/runs/d76-unwarned-injection-16k/**
+!/runs/d77-unfamiliar-document-pilot/
+!/runs/d77-unfamiliar-document-pilot/**
+!/runs/current-source-d90-3x2-20261017/
+!/runs/current-source-d90-3x2-20261017/**
+!/runs/current-source-e6184eb-3x2-20261017/
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125524Z-7d11adaa.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125524Z-7d11adaa.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125524Z-7d11adaa.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125546Z-95e0cca4.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125546Z-95e0cca4.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125546Z-95e0cca4.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125550Z-909c1192.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125550Z-909c1192.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125550Z-909c1192.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125608Z-4fcd276d.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125608Z-4fcd276d.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125608Z-4fcd276d.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125614Z-d23c44fb.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125614Z-d23c44fb.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125614Z-d23c44fb.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125634Z-9e1e3d86.md
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125634Z-9e1e3d86.jsonl
+!/runs/current-source-e6184eb-3x2-20261017/20261017T125634Z-9e1e3d86.manifest.json
+!/runs/current-source-e6184eb-3x2-20261017/campaign-record.md
+!/runs/current-source-e6184eb-3x2-20261017/hotpotqa-benchmark.md
+!/runs/current-source-e6184eb-3x2-20261017/hotpotqa-benchmark.csv
+!/runs/current-source-e6184eb-3x2-20261017/hotpotqa-benchmark.json
+!/runs/current-source-e6184eb-3x2-20261017/reproducibility/
+!/runs/current-source-e6184eb-3x2-20261017/reproducibility/**
+!/runs/d96-injection-current-20261017/
+!/runs/d96-injection-current-20261017/20261017T133247Z-dfb9aeaf.md
+!/runs/d96-injection-current-20261017/20261017T133247Z-dfb9aeaf.jsonl
+!/runs/d96-injection-current-20261017/20261017T133247Z-dfb9aeaf.manifest.json
+!/runs/demo-recording/
+/runs/demo-recording/**
+!/runs/20261017T035806Z-9f955e04.md
+!/runs/20261017T035806Z-9f955e04.jsonl
+!/runs/20261017T035806Z-9f955e04.manifest.json
+!/runs/20261017T035843Z-48b3136c.md
+!/runs/20261017T035843Z-48b3136c.jsonl
+!/runs/20261017T035843Z-48b3136c.manifest.json
+
+# Dataset payloads, private keys, generated console captures, and machine-specific
+# evaluation state stay local even inside selected evidence directories.
+/runs/**/hotpotqa-corpora/
+/runs/**/excluded-dataset-ids.txt
+/runs/goal-verification/budget-smoke/exclude-ids.txt
+/runs/**/blind-review-key.json
+/runs/**/console.txt
+
+# Only the saved inputs needed to reproduce submission/render_demo.py are kept.
+!/runs/demo-recording/failure/
+!/runs/demo-recording/failure/console.txt
+!/runs/demo-recording/failure/repaired-replay.txt
+!/runs/demo-recording/injection/
+!/runs/demo-recording/injection/current-fixture/
+!/runs/demo-recording/injection/current-fixture/20261017T122521Z-e948abb8.jsonl
+!/runs/demo-recording/limit/
+!/runs/demo-recording/limit/console.txt
+!/runs/demo-recording/limit/limit-replay.txt
+
+# Internal audit note is not part of the submission package.
+/review-findings.md
